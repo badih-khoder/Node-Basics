@@ -34,7 +34,8 @@ function startApp(name){
  * @returns {void}
  */
 function onDataReceived(text) {
-  if (text === 'quit\n') {
+  if (text.trim() == 'quit' || text.trim() == 'exit')
+  {
     quit();
   }
   else if(text === 'hello\n'){

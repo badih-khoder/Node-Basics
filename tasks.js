@@ -34,12 +34,16 @@ function startApp(name){
  * @returns {void}
  */
 function onDataReceived(text) {
-  if (text.trim() == 'quit' || text.trim() == 'exit')
+  if (text.trim() == 'quit' || text.trim()=='exit')
   {
     quit();
   }
   else if(text === 'hello\n'){
     hello();
+  }
+
+  else if(text.trim() == 'help\n'){
+    help();
   }
   else{
     unknownCommand(text);

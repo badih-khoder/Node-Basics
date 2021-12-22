@@ -42,7 +42,7 @@ function onDataReceived(text) {
     hello();
   }
 
-  else if(text.trim() == 'help\n'){
+  else if(text.trim() === 'help'){
     help();
   }
   else{
@@ -72,6 +72,10 @@ function hello(){
   console.log('hello!')
 }
 
+//help command
+function help(){
+  console.log('this is help command!')
+}
 
 /**
  * Exits the application

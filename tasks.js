@@ -80,7 +80,7 @@ function unknownCommand(c){
  */
 function hello(x){
   x.trim();
-  console.log ("hello" + x +"!");
+  console.log ("hello" + x + "!");
 }
 
 //help command

@@ -34,12 +34,22 @@ function startApp(name){
  * @returns {void}
  */
 function onDataReceived(text) {
+
+  text=text.replace ("\n", "").trim()
+
   if (text.trim() == 'quit' || text.trim()=='exit')
   {
     quit();
   }
-  else if(text === 'hello\n'){
-    hello();
+  else if (text.startsWith("hello")) {
+    text = text.trim();
+    if (text.substring(0, 5) == "hello") {
+      hello(text.substring(5));
+    }
+    else {
+      unknownCommand(text);
+    }
+
   }
 
   else if(text.trim() === 'help'){
@@ -68,8 +78,9 @@ function unknownCommand(c){
  *
  * @returns {void}
  */
-function hello(){
-  console.log('hello!')
+function hello(x){
+  x.trim();
+  console.log ("hello" + x +"!");
 }
 
 //help command

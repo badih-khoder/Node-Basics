@@ -19,7 +19,7 @@ function startApp(name){
 
 
 /**
- * Decides what to do depending on the data that was received
+ * Decides what to   do depending on the data that was received
  * This function receives the input sent by the user.
  * 
  * For example, if the user entered 
@@ -44,7 +44,7 @@ function onDataReceived(text) {
   else if (text.startsWith("hello")) {
     text = text.trim();
     if (text.substring(0, 5) == "hello") {
-      hello(text.substring(5));
+      hello(text.substring(5) );
     }
     else {
       unknownCommand(text);

@@ -143,7 +143,7 @@ function add(thisTask){
     task: thisTask
   }
   taskList.push(taskItem)
-  console.log(`Successfully added`)
+  console.log(`Successfully  added`)
 }
 // edit task from array
 function editTask(edit){

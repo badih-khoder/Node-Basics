@@ -34,9 +34,9 @@
  */
 function onDataReceived(text) {
   var text = text.trim()
-  if (text === 'quit\n' ||text === 'exit\n') {
+  if (text === 'quit' || text === 'exit') {
     quit();
-  }else if(text === 'help\n'){
+  }else if(text === 'help'){
     help();
   }else if(text.split(" ")[0] === 'hello'){
     if(text.split(" ")[1] !== undefined){
@@ -143,7 +143,7 @@ function add(thisTask){
     task: thisTask
   }
   taskList.push(taskItem)
-  console.log(`Successfully  added`)
+  console.log(`Successfully added`)
 }
 // edit task from array
 function editTask(edit){
@@ -206,10 +206,37 @@ function uncheck(thisText){
  *
  * @returns {void}
  */
-function quit(){
-  console.log('Quitting now, goodbye!')
-  process.exit();
+ var fs = require("fs"); 
+ var fileName = 'database.json';
+ function quit() {
+  console.log("Quitting now, goodbye!");
+  try {
+    const ObjectJson = Object.assign({}, taskList);
+    fs.writeFile(fileName, JSON.stringify(ObjectJson), function writeJSON(err) {
+      if (err) console.log(err);
+      console.log(`Data have been saved and replaced in ${fileName}`);
+      process.exit();
+    });
+  } catch (error) {
+    console.error('Error! Data not saved!');
+  }
 }
 
+const { argv } = require("process");
+let file = process.argv[2];
+if(file === undefined){
+  fileName = 'database.json'
+}else{
+  fileName = file;
+  console.log(fileName)
+}
+
+
+let getData = JSON.parse(fs.readFileSync(fileName));
+console.log(getData)
+let info = Object.values(getData);
+info.forEach((value) => {
+  taskList = Object.values(info);
+});
 // The following line starts the application
 startApp("badih khoder")

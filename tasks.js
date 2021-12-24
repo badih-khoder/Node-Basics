@@ -9,7 +9,7 @@
  * @param  {string} name the name of the app
  * @returns {void}
  */
- function startApp(name){
+ function startApp(name) {
   process.stdin.resume();
   process.stdin.setEncoding('utf8');
   process.stdin.on('data', onDataReceived);
@@ -34,32 +34,40 @@
  * @returns {void}
  */
 function onDataReceived(text) {
-  if (text === 'quit\n' ||text === 'exit\n') {
+  if (text === 'quit\n') {
     quit();
-  }else if(text === 'help\n'){
+  }
+  else if (text === 'exit\n') {
+    quit();
+  }
+
+  else if (text === 'help\n') {
     help();
-  }else if(text.trim().split(" ")[0] === 'hello'){
-    if(text.trim().split(" ")[1] !== undefined){
-      hello(text.trim())
-    }else{
-      hello()
+  }
+  else if (text === 'list\n') {
+    list();
+  }
+
+  else if (text.trim().split(" ")[0] === "add") {
+    add(text.trim().substring(4));
+  }
+  else if (text.trim().split(" ")[0] === "remove") {
+    remove(text.trim().substring(6));
+  }
+  else if (text.startsWith("hello")) {
+    text = text.trim();
+    if (text.substring(0, 5) == "hello") {
+      hello(text.substring(5));
     }
-  }else if(text.trim() === 'ls'){
-    list()
-  }else if(text.trim().split(" ")[0] === 'add'){
-    if(text.trim().split(" ")[1] !== undefined){
-      add(text.trim().substring(4))
+    else {
+      unknownCommand(text);
     }
-    else{
-      console.log('error: Please add task')
-    }
-  }else if(text.trim().split(" ")[0] === 'edit'){
-    editTask(text)
-  }else if(text.trim().split(" ")[0] === 'remove'){
-      removeItemOnce(text.trim().substring(7))
-  }else{
+
+  }
+  else {
     unknownCommand(text);
   }
+
 }
 
 
@@ -70,84 +78,66 @@ function onDataReceived(text) {
  * @param  {string} c the text received
  * @returns {void}
  */
-function unknownCommand(c){
-  console.log('unknown command: "'+c.trim()+'"')
-}
-// This function show the list command
-function help(){
-  console.log(`
-                -help: show the command
-                -hello: to greet username
-                -ls: show you the list of task
-                -add: add task to the list
-                -remove: remove last task from the list or remove (num) to remove what do you want
-                -quit: exit from application
-                -exit: exit from application
-                `)
+function unknownCommand(c) {
+  console.log('unknown command: "' + c.trim() + '"')
 }
 
+
 /**
- * Says hello with the name of the user
+ * Says hello
  *
  * @returns {void}
  */
-function hello(str){
-  console.log(str + "!")
+function hello() {
+  console.log('hello!')
 }
-// list array
-var taskList = ['First Task', 'Second Task', 'Third Task']
-function list(){
-  for (let i = 0; i < taskList.length; i++) {
-    console.log(`${i+1}: ${taskList[i]}`);
-  }
+function hello(x) {
+  x.trim();
+  console.log("hello" + x + "!");
 }
-// add task to array
-function add(task){
-  taskList.push(task)
-  for (let i = 0; i < taskList.length; i++) {
-  console.log(taskList[i])
-  }
-}
-// edit task from array
-function editTask(edit){
-  var editT = Number(edit.trim().split(" ")[1]);
-  if(edit.trim().split(" ")[1] === undefined){
-    console.log('error: Please enter a number or edit the text')
-  }else if(isNaN(editT)){
-      taskList.splice(taskList.length -1, 1,edit.trim().substring(5));
-    console.log("the task edited")
-  }else if(editT > taskList.length){
-    console.log('That number does not exist')
-  }else{
-    if(edit.trim().split(" ")[2] === undefined){
-      console.log("No text")
-    }else{
-    taskList.splice(editT -1, 1,edit.trim().substring(7));
-    console.log("the task edited")
-    }
-  }
-}
-// remove task from array
-function removeItemOnce(value) {
-  var index = Number(value);
-  if (isNaN(index)) {
-    taskList.splice(taskList.length -1, 1);
-    console.log("the task deleted")
-  }else if(index > taskList.length){
-    console.log('That number does not exist')
-  }else{
-    taskList.splice(index -1, 1);
-    console.log("the task deleted")
-  }
-}
+
 /**
  * Exits the application
  *
  * @returns {void}
  */
-function quit(){
+function quit() {
   console.log('Quitting now, goodbye!')
   process.exit();
+}
+
+
+/** List all the possible commands 
+ * @returns {void}
+*/
+function help() {
+  console.log('\nThe possible commands are:\nhello\nhello user\nquit\nexit\nlist\nadd\nremove\nhelp\n')
+}
+
+var listx = ["chicken", "beef", "potato", "soup"];
+function list() {
+  console.log(
+    listx.map((element, key) => `${key + 1} - ${element}`).join('\n'))
+}
+
+function add(text) {
+  if (text.length === 0) {
+    console.log("you forgot to enter the task");
+    return;
+  }
+  listx.push(text)
+}
+
+function remove(index) {
+  if (Number(index) >= 1 && Number(index) <= listx.length) {
+    listx.splice(index - 1, 1);
+    return;
+  }
+  if (index.length == 0) {
+    listx.pop(); return
+  }
+  console.log("The number you entered doesn't exist");
+
 }
 
 // The following line starts the application
